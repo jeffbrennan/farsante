@@ -206,6 +206,42 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
+name = "polars"
+version = "0.19.14"
+description = "Blazingly fast DataFrame library"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "polars-0.19.14-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:a1e84b3d1e77bbf083183ad3c1d7d1d090705cd379c965ee9e585a90d27d7ca3"},
+    {file = "polars-0.19.14-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:65812e80d49f02b368fe21b9a3a3d52a5ca0774131eb2df3e3cc647fdeab42af"},
+    {file = "polars-0.19.14-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d099aeaf684291c9f7ef64ef35749eac00f815d877dfdef1e331a431b1ec06f4"},
+    {file = "polars-0.19.14-cp38-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:443625bf10b149aef18e8b9b0fbc32a8463e065fc827329c2f0aec4bdc24f525"},
+    {file = "polars-0.19.14-cp38-abi3-win_amd64.whl", hash = "sha256:6e39f47b73adec935ba301fefbaf18865fb07170f7d81b943dfc081af4feddce"},
+    {file = "polars-0.19.14.tar.gz", hash = "sha256:5af498565324bdd623c47ebd10ad8681be0a9ad4d24e719673064ba4e9c111a3"},
+]
+
+[package.extras]
+adbc = ["adbc_driver_sqlite"]
+all = ["polars[adbc,cloudpickle,connectorx,deltalake,fsspec,gevent,matplotlib,numpy,pandas,pyarrow,pydantic,pyiceberg,sqlalchemy,timezone,xlsx2csv,xlsxwriter]"]
+cloudpickle = ["cloudpickle"]
+connectorx = ["connectorx (>=0.3.2)"]
+deltalake = ["deltalake (>=0.13.0)"]
+fsspec = ["fsspec"]
+gevent = ["gevent"]
+matplotlib = ["matplotlib"]
+numpy = ["numpy (>=1.16.0)"]
+openpyxl = ["openpyxl (>=3.0.0)"]
+pandas = ["pandas", "pyarrow (>=7.0.0)"]
+pyarrow = ["pyarrow (>=7.0.0)"]
+pydantic = ["pydantic"]
+pyiceberg = ["pyiceberg (>=0.5.0)"]
+pyxlsb = ["pyxlsb (>=1.0)"]
+sqlalchemy = ["pandas", "sqlalchemy"]
+timezone = ["backports.zoneinfo", "tzdata"]
+xlsx2csv = ["xlsx2csv (>=0.8.0)"]
+xlsxwriter = ["xlsxwriter"]
+
+[[package]]
 name = "py4j"
 version = "0.10.9.5"
 description = "Enables Python programs to dynamically access arbitrary Java objects"
@@ -345,4 +381,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8 <4.0"
-content-hash = "37cce61f790be254eb61646c68ca8e50f3b8a4473c2cceee5285968ac39a7f09"
+content-hash = "01b121c37cae3dd4070d4282ef8eb8338c42fb59ba4737d926945a66e23fb25e"

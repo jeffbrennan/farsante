@@ -8,6 +8,7 @@ pub trait RowGenerator {
         Self: Sized;
     fn get_csv_header(&self) -> String;
     fn get_csv_row(&mut self) -> String;
+    fn get_values(&self) -> GroupByRow;
 }
 
 pub struct GroupByGenerator {
@@ -19,6 +20,18 @@ pub struct GroupByGenerator {
     distr_float: Uniform<f64>,
     distr_nas: Uniform<u8>,
     rng: ChaCha8Rng,
+}
+
+pub struct GroupByRow {
+    pub id1: String,
+    pub id2: String,
+    pub id3: String,
+    pub id4: String,
+    pub id5: String,
+    pub id6: String,
+    pub v1: u8,
+    pub v2: u8,
+    pub v3: f64,
 }
 
 pub struct JoinGeneratorBig {
@@ -59,6 +72,44 @@ impl RowGenerator for GroupByGenerator {
     }
     fn get_csv_header(&self) -> String {
         "id1,id2,id3,id4,id5,id6,v1,v2,v3\n".to_string()
+    }
+
+    fn get_values(&self) -> GroupByRow {
+        GroupByRow {
+            id1: if self.distr_nas.sample(&mut self.rng) >= self.nas {
+                format!("id{:03}", self.distr_k.sample(&mut self.rng))
+            } else {
+                "".to_string()
+            },
+            id2: if self.distr_nas.sample(&mut self.rng) >= self.nas {
+                format!("id{:03}", self.distr_k.sample(&mut self.rng))
+            } else {
+                "".to_string()
+            },
+            id3: if self.distr_nas.sample(&mut self.rng) >= self.nas {
+                format!("id{:010}", self.distr_nk.sample(&mut self.rng))
+            } else {
+                "".to_string()
+            },
+            id4: if self.distr_nas.sample(&mut self.rng) >= self.nas {
+                format!("{}", self.distr_k.sample(&mut self.rng))
+            } else {
+                "".to_string()
+            },
+            id5: if self.distr_nas.sample(&mut self.rng) >= self.nas {
+                format!("{}", self.distr_k.sample(&mut self.rng))
+            } else {
+                "".to_string()
+            },
+            id6: if self.distr_nas.sample(&mut self.rng) >= self.nas {
+                format!("{}", self.distr_nk.sample(&mut self.rng))
+            } else {
+                "".to_string()
+            },
+            v1: self.distr_5.sample(&mut self.rng),
+            v2: self.distr_15.sample(&mut self.rng),
+            v3: self.distr_float.sample(&mut self.rng),
+        }
     }
 
     fn get_csv_row(&mut self) -> String {
@@ -147,6 +198,10 @@ impl RowGenerator for JoinGeneratorBig {
         }
     }
 
+    fn get_values(&self) -> GroupByRow {
+        unimplemented!()
+    }
+
     fn get_csv_header(&self) -> String {
         "id1,id2,id3,id4,id5,id6,v2\n".to_string()
     }
@@ -184,7 +239,12 @@ impl RowGenerator for JoinGeneratorBig {
     }
 }
 
+// TODO: get the get_values method to work
 impl RowGenerator for JoinGeneratorSmall {
+    fn get_values(self) -> GroupByRow {
+        unimplemented!()
+    }
+
     #[allow(unused_variables)]
     fn new(n: u64, k: u64, nas: u8, seed: u64) -> Self {
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
@@ -289,5 +349,9 @@ impl RowGenerator for JoinGeneratorMedium {
             k2,
             self.distr_float.sample(&mut self.rng),
         )
+    }
+
+    fn get_values(&mut self) -> () {
+        unimplemented!()
     }
 }
