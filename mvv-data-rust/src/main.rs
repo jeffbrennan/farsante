@@ -1,7 +1,7 @@
-use polars::prelude::*;
-use std::{fs::File, ops::Range};
-
 use kdam::{tqdm, BarExt};
+use polars::prelude::*;
+use rand::{distributions::Uniform, Rng}; // 0.8.0
+use std::{fs::File, ops::Range};
 
 pub enum DsType {
     XSmall,
@@ -72,10 +72,16 @@ fn main() -> Result<(), PolarsError> {
             let start = (n / n_chunks) * chunk;
             let end = (n / n_chunks) * (chunk + 1);
             let n_rows: i64 = end - start;
-            let index: Range<i64> = start..end;
+
+            let range = Uniform::from(1..10);
+            let count: Vec<i32> = rand::thread_rng()
+                .sample_iter(&range)
+                .take(n_rows as usize)
+                .collect();
+
             let mvv: Range<i64> = start..end;
             let mut df: DataFrame =
-                DataFrame::new(vec![Series::new("index", index), Series::new("mvv", mvv)]).unwrap();
+                DataFrame::new(vec![Series::new("mvv", mvv), Series::new("count", count)]).unwrap();
 
             let mut file = File::create(format!("{}/{}_{}.parquet", &output_dir, dir_name, chunk))
                 .expect("could not create file");
